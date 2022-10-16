@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 16, 2022 at 03:49 PM
+-- Generation Time: Oct 16, 2022 at 08:55 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -46,12 +46,14 @@ CREATE TABLE `albums` (
 
 CREATE TABLE `images` (
   `id` int(11) NOT NULL,
+  `uploader` int(11) NOT NULL,
   `filename` varchar(256) NOT NULL,
   `extension` varchar(32) NOT NULL,
   `data` longblob NOT NULL,
-  `uploader` int(11) NOT NULL,
+  `mime` varchar(128) NOT NULL,
   `uploaded_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `deleted` tinyint(1) NOT NULL DEFAULT 0
+  `deleted` tinyint(1) NOT NULL DEFAULT 0,
+  `album_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -68,13 +70,6 @@ CREATE TABLE `users` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `username`, `password`, `profile_picture`, `created_at`, `deleted`) VALUES
-(1, 'amir', '1234', NULL, '2022-10-16 15:07:53', 0);
 
 --
 -- Indexes for dumped tables
@@ -94,7 +89,8 @@ ALTER TABLE `albums`
 --
 ALTER TABLE `images`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `uploader` (`uploader`);
+  ADD KEY `uploader` (`uploader`),
+  ADD KEY `album_id` (`album_id`);
 
 --
 -- Indexes for table `users`
@@ -123,7 +119,7 @@ ALTER TABLE `images`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

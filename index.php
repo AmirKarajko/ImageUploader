@@ -17,7 +17,12 @@
 
     $rules = array(
         "{\b(albums)\b}" => __DIR__ . "/sites/albums.php",
-        "{\b(images)\b}" => __DIR__ . "/sites/images.php",
+        "{\b(album)\b}" => __DIR__ . "/sites/album.php",
+        "{\b(new_album)\b}" => __DIR__ . "/sites/new_album.php",
+        "{\b(save_album)\b}" => __DIR__ . "/sites/save_album.php",
+        "{\b(delete_album)\b}" => __DIR__ . "/sites/delete_album.php",
+        "{\b(upload_image)\b}" => __DIR__ . "/sites/upload_image.php",
+        "{\b(delete_image)\b}" => __DIR__ . "/sites/delete_image.php",
         "{\b(logout)\b}" => __DIR__ . "/sites/logout.php"
     );
 

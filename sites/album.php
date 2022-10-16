@@ -194,6 +194,9 @@
                                             <td>$image_uploaded_at</td>
                                             <td>
                                                 <div class="btn-group" role="group" aria-label="Action buttons">
+                                                    <a href="download_image?id=$image_id" class="btn btn-outline-primary">
+                                                        Download
+                                                    </a>
                                         HTML;
 
                             $image_file_types = array(

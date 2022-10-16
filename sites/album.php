@@ -34,7 +34,7 @@
     $sql2 = "SELECT
                 images.id AS image_id,
                 images.filename AS image_filename,
-                images.mime AS image_type,
+                images.mime AS image_file_type,
                 users.id AS image_uploader_id,
                 users.username AS image_uploader,
                 images.uploaded_at AS image_uploaded_at
@@ -123,7 +123,6 @@
             </form>
         </div>
 
-
         <div class="container mt-3">
             <div class="row">
                 <div class="col">
@@ -179,7 +178,7 @@
                         foreach ($rows2 as $row) {
                             $image_id = $row["image_id"];
                             $image_filename = $row["image_filename"];
-                            $image_type = $row["image_type"];
+                            $image_file_type = $row["image_file_type"];
                             $image_uploader_id = $row["image_uploader_id"];
                             $image_uploader = $row["image_uploader"];
                             $image_uploaded_at = $row["image_uploaded_at"];
@@ -190,7 +189,7 @@
                                         <tr>
                                             <td>$image_id</td>
                                             <td>$image_filename</td>
-                                            <td>$image_type</td>
+                                            <td>$image_file_type</td>
                                             <td>$image_uploader</td>
                                             <td>$image_uploaded_at</td>
                                             <td>
@@ -208,6 +207,13 @@
                                 "image/tiff",
                                 "image/webp"
                             );
+                            if(in_array($image_file_type, $image_file_types)) {
+                                $html .= <<<HTML
+                                                <a href="view_image?id=$image_id" class="btn btn-outline-primary">
+                                                    View
+                                                </a>
+                                            HTML;
+                            }
 
                             if($image_uploader_id == $user_id) {
                                 $html .= <<<HTML
@@ -229,7 +235,6 @@
                 </tbody>
             </table>
         </div>
-
 
     <body>
 </html>

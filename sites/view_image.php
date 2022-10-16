@@ -18,6 +18,7 @@
     echo <<<HTML
                 <html>
                     <head>
+                        <link rel="icon" type="image/png" href="../favicon.png">
                         <title>View Image | Image Uploader</title>
                     </head>
                     <body>

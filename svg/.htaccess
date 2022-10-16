@@ -1,0 +1,6 @@
+# Disable access to SQL files
+# This folder does not have to be deployed on the server
+<Files *.sql>
+  Order Allow,Deny
+  Deny from all
+</Files>

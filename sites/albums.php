@@ -11,6 +11,23 @@
 
     require_once(__DIR__ . "/../php/database.php");
 
+    require_once("./php/pagination.php");
+
+    $totalResults = 0;
+    $sql = "SELECT COUNT(id) AS total_albums FROM albums WHERE deleted = 0";
+    if($result = mysqli_query($conn, $sql)) {
+        $rows = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+        $totalResults = $rows[0]["total_albums"];
+    }
+
+    $currentPage = isset($_GET["page"]) ? $_GET["page"] : 1;
+    $itemsPerPage = 10;
+    $limitRangeStart = ($currentPage - 1) * $itemsPerPage;
+    $limitRangeEnd = $itemsPerPage;
+
     $sql = "SELECT
                 albums.id AS album_id,
                 albums.album_name AS album_name,
@@ -19,7 +36,8 @@
                 albums.created_at AS album_created_at
             FROM albums
             LEFT JOIN users ON albums.created_by = users.id
-            WHERE albums.deleted = 0;";
+            WHERE albums.deleted = 0
+            LIMIT $limitRangeStart, $limitRangeEnd";
 
     if ($result = mysqli_query($conn, $sql)) {
         $rows = array();
@@ -63,6 +81,10 @@
                     "active" => false
                 ]
             ));
+        ?>
+
+        <?php
+            echo getPagination($currentPage, $itemsPerPage, $totalResults, "albums");
         ?>
 
         <div class="container">

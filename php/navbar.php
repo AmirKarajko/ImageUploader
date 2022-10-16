@@ -1,5 +1,7 @@
 <?php
-    function getNavbar($items) {
+    function getNavbar($items, $searchEnabled) {
+        $search = isset($_GET["search"]) ? $_GET["search"] : "";
+        
         $itemsHTML = "";
         foreach ($items as $item) {
             $title = $item->title;
@@ -34,6 +36,17 @@
                                         $itemsHTML
                                     </ul>
                     HTML;
+
+        if ($searchEnabled) {
+            $html .= <<<HTML
+                            <form method="get" class="d-flex">
+                                <div class="input-group">
+                                    <input type="text" class="form-control me-2" name="search" placeholder="Search" aria-label="Search" value="$search" />
+                                    <button class="input-group-text btn-success" type="submit">Search</button>
+                                </div>
+                            </form>
+                        HTML;
+        }
 
         $html .= <<<HTML
                                 </div>

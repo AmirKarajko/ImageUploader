@@ -11,10 +11,20 @@
 
     require_once(__DIR__ . "/../php/database.php");
 
+    $searchQuery = "";
+    if ($_SERVER["REQUEST_METHOD"] == "GET") {
+        if (isset($_GET["search"])) {
+            $searchValue = mysqli_real_escape_string($conn, trim($_GET["search"]));
+            $searchQuery = " AND (
+                albums.album_name LIKE '%$searchValue%'
+            )";
+        }
+    }
+
     require_once("./php/pagination.php");
 
     $totalResults = 0;
-    $sql = "SELECT COUNT(id) AS total_albums FROM albums WHERE deleted = 0";
+    $sql = "SELECT COUNT(id) AS total_albums FROM albums WHERE deleted = 0$searchQuery";
     if($result = mysqli_query($conn, $sql)) {
         $rows = array();
         while ($row = mysqli_fetch_assoc($result)) {
@@ -36,7 +46,7 @@
                 albums.created_at AS album_created_at
             FROM albums
             LEFT JOIN users ON albums.created_by = users.id
-            WHERE albums.deleted = 0
+            WHERE albums.deleted = 0$searchQuery
             LIMIT $limitRangeStart, $limitRangeEnd";
 
     if ($result = mysqli_query($conn, $sql)) {
@@ -80,7 +90,7 @@
                     "href" => "logout",
                     "active" => false
                 ]
-            ));
+            ), true);
         ?>
 
         <?php

@@ -22,4 +22,28 @@
 
         <title>Albums | Image Uploader</title>
     </head>
+    <body>
+        <?php
+            require_once("./php/navbar.php");
+            echo getNavbar(array(
+                (object)[
+                    "title" => "Albums",
+                    "href" => "albums",
+
+                    "active" => false
+                ],
+                (object)[
+                    "title" => "Images",
+                    "href" => "images",
+
+                    "active" => false
+                ],
+                (object)[
+                    "title" => "Log Out",
+                    "href" => "logout",
+                    "active" => false
+                ]
+            ));
+        ?>
+    </body>
 </html>

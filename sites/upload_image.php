@@ -29,6 +29,6 @@
         }
     }
 
-    header("location: albums");
+    header("location: album?id=" . $album_id);
     exit;
 ?>

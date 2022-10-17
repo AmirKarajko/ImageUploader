@@ -135,7 +135,7 @@
 
                             if($album_created_by == $user_id) {
                                 $html .= <<<HTML
-                                            <a href="delete_album?id=$album_id" class="btn btn-outline-primary">
+                                            <a onclick="if(confirm('Are you sure you want to delete this album?')) {window.location = 'delete_album?id=$album_id'}" class="btn btn-outline-primary">
                                                 Delete
                                             </a>
                                         HTML;

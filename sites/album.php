@@ -196,6 +196,7 @@
                             $image_uploaded_by = $row["image_uploaded_by"];
                             $image_uploader = $row["image_uploader"];
                             $image_uploaded_at = $row["image_uploaded_at"];
+                            $image_uploaded_by = $row["image_uploaded_by"];
 
                             $image_album_id = $album_id;
 
@@ -204,7 +205,7 @@
                                             <td>$image_id</td>
                                             <td>$image_filename</td>
                                             <td>$image_file_type</td>
-                                            <td>$image_uploader</td>
+                                            <td><a href="profile_picture?id=$image_uploaded_by">$image_uploader</a></td>
                                             <td>$image_uploaded_at</td>
                                             <td>
                                                 <div class="btn-group" role="group" aria-label="Action buttons">

@@ -103,7 +103,7 @@
                             if ($profile_active == 1 && !$profile_deleted) {
                                 $profile_html .= <<<HTML
                                             <center>
-                                                <img src="download_profile_picture?id=$profile_id" style="width:168; height:168px" />
+                                                <img src="download_profile_picture?id=$profile_id" style="width:168px; height:168px" />
                                             </center>
                                             HTML;
                             }
@@ -161,7 +161,6 @@
                                     <th>ID</th>
                                     <th>Filename</th>
                                     <th>File Type</th>
-                                    <th>Uploaded by</th>
                                     <th>Uploaded At</th>
                                     <th>Actions</th>
                                 </tr>
@@ -182,7 +181,6 @@
                                 <td>$profile_id</td>
                                 <td>$profile_filename</td>
                                 <td>$profile_file_type</td>
-                                <td>$profile_uploaded_by</td>
                                 <td>$profile_uploaded_at</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Action buttons">

@@ -11,22 +11,23 @@
 
     require_once(__DIR__ . "/../php/database.php");
 
-    $album_id = mysqli_real_escape_string($conn, trim($_GET["id"]));
+    $profile_id = mysqli_real_escape_string($conn, trim($_GET["id"]));
 
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
-        $sql = "UPDATE albums SET deleted = 1 WHERE id = ? AND created_by = ?";
+
+        $sql = "UPDATE profile_pictures SET active = 0 WHERE uploaded_by = ?";
         if($stmt = mysqli_prepare($conn, $sql)) {
-            mysqli_stmt_bind_param($stmt, "ii", $album_id, $_SESSION["user"]["id"]);
+            mysqli_stmt_bind_param($stmt, "i", $_SESSION["user"]["id"]);
         }
         mysqli_stmt_execute($stmt);
 
-        $sql = "UPDATE images SET deleted = 1 WHERE albums_id = ?";
+        $sql = "UPDATE profile_pictures SET active = 1 WHERE id = ? AND uploaded_by = ?";
         if($stmt = mysqli_prepare($conn, $sql)) {
-            mysqli_stmt_bind_param($stmt, "i", $album_id);
+            mysqli_stmt_bind_param($stmt, "ii", $profile_id, $_SESSION["user"]["id"]);
         }
         mysqli_stmt_execute($stmt);
 
-        header("location: albums");
+        echo "<script>history.go(-1);</script>";
         exit;
     }
 ?>

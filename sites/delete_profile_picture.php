@@ -11,12 +11,12 @@
 
     require_once(__DIR__ . "/../php/database.php");
 
-    $image_id = mysqli_real_escape_string($conn, trim($_GET["id"]));
+    $profile_id = mysqli_real_escape_string($conn, trim($_GET["id"]));
 
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
-        $sql = "UPDATE images SET deleted = 1 WHERE id = ? AND uploaded_by = ?";
+        $sql = "UPDATE profile_pictures SET deleted = 1 WHERE id = ? AND uploaded_by = ?";
         if($stmt = mysqli_prepare($conn, $sql)) {
-            mysqli_stmt_bind_param($stmt, "ii", $image_id, $_SESSION["user"]["id"]);
+            mysqli_stmt_bind_param($stmt, "ii", $profile_id, $_SESSION["user"]["id"]);
         }
         mysqli_stmt_execute($stmt);
 

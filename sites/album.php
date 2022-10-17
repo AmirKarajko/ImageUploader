@@ -21,6 +21,7 @@
             FROM albums
             LEFT JOIN users ON albums.created_by = users.id
             WHERE albums.id = $album_id AND albums.deleted = 0;";
+    
     if ($result = mysqli_query($conn, $sql)) {
         $rows = array();
         while ($row = mysqli_fetch_assoc($result)) {
@@ -34,12 +35,12 @@
                 images.id AS image_id,
                 images.filename AS image_filename,
                 images.mime AS image_file_type,
-                users.id AS image_uploader_id,
+                users.id AS image_uploaded_by,
                 users.username AS image_uploader,
                 images.uploaded_at AS image_uploaded_at
             FROM images
-            LEFT JOIN users ON images.uploader = users.id
-            LEFT JOIN albums ON albums.id = images.album_id
+            LEFT JOIN users ON images.uploaded_by = users.id
+            LEFT JOIN albums ON albums.id = images.albums_id
             WHERE images.deleted = 0 AND albums.id = $album_id;";
 
     if ($result = mysqli_query($conn, $sql)) {
@@ -48,6 +49,8 @@
             $rows2[] = $row;
         }
     }
+
+    $user_id = $_SESSION["user"]["id"];
 ?>
 
 <!DOCTYPE html>
@@ -86,6 +89,12 @@
                         "active" => false
                     ],
                     (object)[
+                        "title" => "Profile",
+                        "href" => "profile_picture?id=$user_id",
+    
+                        "active" => false
+                    ],
+                    (object)[
                         "title" => "Log Out",
                         "href" => "logout",
                         "active" => false
@@ -97,6 +106,12 @@
                     (object)[
                         "title" => "Albums",
                         "href" => "albums",
+                        "active" => false
+                    ],
+                    (object)[
+                        "title" => "Profile",
+                        "href" => "profile_picture?id=$user_id",
+    
                         "active" => false
                     ],
                     (object)[
@@ -165,7 +180,7 @@
                         <th>ID</th>
                         <th>Filename</th>
                         <th>File Type</th>
-                        <th>Uploader</th>
+                        <th>Uploaded by</th>
                         <th>Uploaded At</th>
                         <th>Actions</th>
                     </tr>
@@ -178,7 +193,7 @@
                             $image_id = $row["image_id"];
                             $image_filename = $row["image_filename"];
                             $image_file_type = $row["image_file_type"];
-                            $image_uploader_id = $row["image_uploader_id"];
+                            $image_uploaded_by = $row["image_uploaded_by"];
                             $image_uploader = $row["image_uploader"];
                             $image_uploaded_at = $row["image_uploaded_at"];
 
@@ -217,7 +232,7 @@
                                             HTML;
                             }
 
-                            if($image_uploader_id == $user_id) {
+                            if($image_uploaded_by == $user_id) {
                                 $html .= <<<HTML
                                             <a href="delete_image?id=$image_id" class="btn btn-outline-primary">
                                                 Delete

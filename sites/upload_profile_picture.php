@@ -61,6 +61,6 @@
         }
     }
 
-    echo "<script>history.go(-1);</script>";
+    header("location: profile_picture?id=" . $_SESSION["user"]["id"]);
     exit;
 ?>

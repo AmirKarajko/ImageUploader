@@ -20,8 +20,7 @@
                 profile_pictures.uploaded_by AS profile_uploaded_by,
                 profile_pictures.active AS profile_active,
                 profile_pictures.uploaded_At AS profile_uploaded_at,
-                profile_pictures.deleted AS profile_deleted,
-                users.username AS user_username
+                profile_pictures.deleted AS profile_deleted
             FROM profile_pictures
             LEFT JOIN users ON profile_pictures.uploaded_by = users.id
             WHERE profile_pictures.deleted = 0 AND profile_pictures.uploaded_by = $user_id;";
@@ -30,6 +29,14 @@
         $rows = array();
         while ($row = mysqli_fetch_assoc($result)) {
             $rows[] = $row;
+        }
+    }
+
+    $sql = "SELECT username AS user_username FROM users WHERE id = $user_id";
+    if ($result = mysqli_query($conn, $sql)) {
+        $rows2 = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows2[] = $row;
         }
     }
 ?>
@@ -82,17 +89,24 @@
                             $profile_id = $row["profile_id"];
                             $profile_active = $row["profile_active"];
                             $profile_deleted = $row["profile_deleted"];
-                            $user_username = $row["user_username"];
 
                             if ($profile_active == 1 && !$profile_deleted) {
                                 $profile_html .= <<<HTML
                                             <center>
-                                                <h2>Profile Picture</h2>
-                                                <img src="download_profile_picture?id=$profile_id" style="width:128px; height:128px" />
-                                                <h3>$user_username</h3>
+                                                <img src="download_profile_picture?id=$profile_id" style="width:168; height:168px" />
                                             </center>
                                             HTML;
                             }
+                        }
+
+                        foreach ($rows2 as $row) {
+                            $user_username = $row["user_username"];
+
+                            $profile_html .= <<<HTML
+                                                <center>
+                                                    <h3>$user_username</h3>
+                                                </center>
+                                            HTML;
                         }
                         
                         echo $profile_html;

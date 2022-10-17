@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 16, 2022 at 08:55 PM
+-- Generation Time: Oct 17, 2022 at 12:43 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -30,8 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `albums` (
   `id` int(11) NOT NULL,
   `users_id` int(11) NOT NULL,
-  `files_id` int(11) NOT NULL,
-  `album_name` varchar(256) NOT NULL,
+  `name` varchar(256) NOT NULL,
   `description` varchar(256) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
@@ -46,14 +45,14 @@ CREATE TABLE `albums` (
 
 CREATE TABLE `images` (
   `id` int(11) NOT NULL,
-  `uploader` int(11) NOT NULL,
   `filename` varchar(256) NOT NULL,
   `extension` varchar(32) NOT NULL,
   `data` longblob NOT NULL,
   `mime` varchar(128) NOT NULL,
+  `album_id` int(11) NOT NULL,
+  `uploader` int(11) NOT NULL,
   `uploaded_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `deleted` tinyint(1) NOT NULL DEFAULT 0,
-  `album_id` int(11) NOT NULL
+  `deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -81,7 +80,6 @@ CREATE TABLE `users` (
 ALTER TABLE `albums`
   ADD PRIMARY KEY (`id`),
   ADD KEY `users_id` (`users_id`),
-  ADD KEY `files_id` (`files_id`),
   ADD KEY `created_by` (`created_by`);
 
 --

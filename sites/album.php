@@ -15,7 +15,7 @@
 
     $sql = "SELECT
                 albums.id AS album_id,
-                albums.album_name AS album_name,
+                albums.name AS album_name,
                 albums.description AS album_description,
                 albums.created_by AS album_created_by
             FROM albums
@@ -30,8 +30,7 @@
 
     $title = (isset($rows[0]["album_name"]) && strlen($rows[0]["album_name"]) > 0) ? $rows[0]["album_name"] : "<unnamed>";
 
-
-    $sql2 = "SELECT
+    $sql = "SELECT
                 images.id AS image_id,
                 images.filename AS image_filename,
                 images.mime AS image_file_type,
@@ -43,13 +42,12 @@
             LEFT JOIN albums ON albums.id = images.album_id
             WHERE images.deleted = 0 AND albums.id = $album_id;";
 
-    if ($result = mysqli_query($conn, $sql2)) {
+    if ($result = mysqli_query($conn, $sql)) {
         $rows2 = array();
         while ($row = mysqli_fetch_assoc($result)) {
             $rows2[] = $row;
         }
     }
-
 ?>
 
 <!DOCTYPE html>

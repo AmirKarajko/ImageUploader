@@ -10,22 +10,56 @@
     }
 
     if (count($_FILES) > 0) {
-        // Upload selected file
-        if (is_uploaded_file($_FILES["upload"]["tmp_name"])) {
-            require_once(__DIR__ . "/../php/database.php");
+        $errors = array();
+        $maxsize = 10000000;
+        $acceptable = array(
+            "image/avif",
+            "image/bmp",
+            "image/gif",
+            "image/vnd.microsoft.icon",
+            "image/jpeg",
+            "image/png",
+            "image/svg+xml",
+            "image/tiff",
+            "image/webp"
+        );
 
-            $album_id = mysqli_real_escape_string($conn, $_POST["id"]);
+        if (($_FILES['upload']['size'] >= $maxsize) || ($_FILES["upload"]["size"] == 0)) {
+            $errors[] = "File too large. File must be less than 10 megabytes.";
+        }
 
-            $filename = $_FILES["upload"]["name"];
-            $tmpName = $_FILES["upload"]["tmp_name"];
-            $extension = pathinfo($filename, PATHINFO_EXTENSION);
+        if ((!in_array($_FILES['upload']['type'], $acceptable)) && (!empty($_FILES["upload"]["type"]))) {
+            $errors[] = "Invalid file type. Only BMP, GIF, JPG, JPEG, PNG types are accepted.";
+        }
 
-            $fileType = $_FILES["upload"]["type"];
-            $data = addslashes(file_get_contents($tmpName));
+        if (count($errors) === 0) {
+            // Upload selected file
+            if (is_uploaded_file($_FILES["upload"]["tmp_name"])) {
+                require_once(__DIR__ . "/../php/database.php");
 
-            $sql = "INSERT INTO images(filename, extension, mime, data, uploader, album_id) VALUES ('{$filename}', '{$extension}', '{$fileType}', '{$data}', '{$_SESSION["user"]["id"]}', '{$album_id}')";
+                $album_id = mysqli_real_escape_string($conn, $_POST["id"]);
 
-            mysqli_query($conn, $sql) or die("<b>Error:</b> Problem on File Upload<br />" . mysqli_error($conn));
+                $filename = $_FILES["upload"]["name"];
+                $tmpName = $_FILES["upload"]["tmp_name"];
+                $extension = pathinfo($filename, PATHINFO_EXTENSION);
+
+                $fileType = $_FILES["upload"]["type"];
+                $data = addslashes(file_get_contents($tmpName));
+
+                $fileFormat = "";
+                if (substr($filename, -3) == "bmp" || substr($filename, -3) == "gif" || substr($filename, -3) == "jpg" || substr($filename, -4) == "jpeg" || substr($filename, -3) == "png") {
+                    $sql = "INSERT INTO images(filename, extension, mime, data, uploader, album_id) VALUES ('{$filename}', '{$extension}', '{$fileType}', '{$data}', '{$_SESSION["user"]["id"]}', '{$album_id}')";
+
+                    mysqli_query($conn, $sql) or die("<b>Error:</b> Problem on File Upload<br />" . mysqli_error($conn));
+                }
+            }
+        }
+        else {
+            foreach($errors as $error) {
+                echo $error . "<br />";
+            }
+            
+            die();
         }
     }
 

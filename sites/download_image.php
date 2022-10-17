@@ -9,11 +9,9 @@
         exit;
     }
 
-
     if(!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
         exit;
     }
-
 
     require_once(__DIR__ . "/../php/database.php");
 

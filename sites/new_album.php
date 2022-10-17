@@ -21,7 +21,7 @@
                 $name = "album_" . $counter;
             }
 
-            $sql = "SELECT album_name FROM albums WHERE album_name LIKE ?";
+            $sql = "SELECT name FROM albums WHERE name LIKE ?";
             if ($stmt = mysqli_prepare($conn, $sql)) {
                 mysqli_stmt_bind_param($stmt, "s", $name);
             }
@@ -39,7 +39,7 @@
 
         echo $name;
 
-        $sql = "INSERT INTO albums (album_name, description, created_by) VALUES (?, '', ?)";
+        $sql = "INSERT INTO albums (name, description, created_by) VALUES (?, '', ?)";
         if ($stmt = mysqli_prepare($conn, $sql)) {
             mysqli_stmt_bind_param($stmt, "si", $name, $_SESSION["user"]["id"]);
         }

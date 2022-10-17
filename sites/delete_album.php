@@ -20,9 +20,9 @@
         }
         mysqli_stmt_execute($stmt);
 
-        $sql = "UPDATE images SET deleted = 1 WHERE album_id = ? AND uploader = ?";
+        $sql = "UPDATE images SET deleted = 1 WHERE album_id = ?";
         if($stmt = mysqli_prepare($conn, $sql)) {
-            mysqli_stmt_bind_param($stmt, "ii", $album_id, $_SESSION["user"]["id"]);
+            mysqli_stmt_bind_param($stmt, "i", $album_id);
         }
         mysqli_stmt_execute($stmt);
 

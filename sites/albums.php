@@ -16,7 +16,7 @@
         if (isset($_GET["search"])) {
             $searchValue = mysqli_real_escape_string($conn, trim($_GET["search"]));
             $searchQuery = " AND (
-                albums.album_name LIKE '%$searchValue%'
+                albums.name LIKE '%$searchValue%'
             )";
         }
     }
@@ -40,7 +40,7 @@
 
     $sql = "SELECT
                 albums.id AS album_id,
-                albums.album_name AS album_name,
+                albums.name AS album_name,
                 users.id AS album_created_by,
                 users.username AS album_author,
                 albums.created_at AS album_created_at

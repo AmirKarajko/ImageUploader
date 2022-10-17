@@ -16,7 +16,7 @@
         $album_name = mysqli_real_escape_string($conn, trim($_POST["name"]));
         $album_description = mysqli_real_escape_string($conn, trim($_POST["description"]));
 
-        $sql = "UPDATE albums SET album_name = ?, description = ? WHERE id = ? AND created_by = ? AND deleted = 0";
+        $sql = "UPDATE albums SET name = ?, description = ? WHERE id = ? AND created_by = ? AND deleted = 0";
         if($stmt = mysqli_prepare($conn, $sql)) {
             mysqli_stmt_bind_param($stmt, "ssii", $album_name, $album_description, $album_id, $_SESSION["user"]["id"]);
         }

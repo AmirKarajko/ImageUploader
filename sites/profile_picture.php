@@ -75,7 +75,7 @@
                     "href" => "logout",
                     "active" => false
                 ]
-            ), true);
+            ), false);
         ?>
 
         <div class="container mt-3">
@@ -84,6 +84,16 @@
                     <?php
                         $profile_html = <<<HTML
                         HTML;
+
+                        foreach ($rows2 as $row) {
+                            $user_username = $row["user_username"];
+
+                            $profile_html .= <<<HTML
+                                                <center>
+                                                    <h3>$user_username</h3>
+                                                </center>
+                                            HTML;
+                        }
 
                         foreach ($rows as $row) {
                             $profile_id = $row["profile_id"];
@@ -97,17 +107,7 @@
                                             </center>
                                             HTML;
                             }
-                        }
-
-                        foreach ($rows2 as $row) {
-                            $user_username = $row["user_username"];
-
-                            $profile_html .= <<<HTML
-                                                <center>
-                                                    <h3>$user_username</h3>
-                                                </center>
-                                            HTML;
-                        }
+                        }                        
                         
                         echo $profile_html;
                     ?>

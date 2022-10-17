@@ -37,8 +37,6 @@
             if (is_uploaded_file($_FILES["upload"]["tmp_name"])) {
                 require_once(__DIR__ . "/../php/database.php");
 
-                $album_id = mysqli_real_escape_string($conn, $_POST["id"]);
-
                 $filename = $_FILES["upload"]["name"];
                 $tmpName = $_FILES["upload"]["tmp_name"];
                 $extension = pathinfo($filename, PATHINFO_EXTENSION);
@@ -48,7 +46,7 @@
 
                 $fileFormat = "";
                 if (substr($filename, -3) == "bmp" || substr($filename, -3) == "gif" || substr($filename, -3) == "jpg" || substr($filename, -4) == "jpeg" || substr($filename, -3) == "png") {
-                    $sql = "INSERT INTO images(filename, extension, mime, data, uploaded_by, albums_id) VALUES ('{$filename}', '{$extension}', '{$fileType}', '{$data}', '{$_SESSION["user"]["id"]}', '{$album_id}')";
+                    $sql = "INSERT INTO profile_pictures(filename, extension, mime, data, uploaded_by) VALUES ('{$filename}', '{$extension}', '{$fileType}', '{$data}', '{$_SESSION["user"]["id"]}')";
 
                     mysqli_query($conn, $sql) or die("<b>Error:</b> Problem on File Upload<br />" . mysqli_error($conn));
                 }
@@ -63,6 +61,6 @@
         }
     }
 
-    header("location: album?id=" . $album_id);
+    header("location: profile_picture?id=" . $_SESSION["user"]["id"]);
     exit;
 ?>

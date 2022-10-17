@@ -16,6 +16,12 @@
     }
 
     $rules = array(
+        "{\b(profile_picture)\b}" => __DIR__ . "/sites/profile_picture.php",
+        "{\b(upload_profile_picture)\b}" => __DIR__ . "/sites/upload_profile_picture.php",
+        "{\b(download_profile_picture)\b}" => __DIR__ . "/sites/download_profile_picture.php",
+        "{\b(view_profile_picture)\b}" => __DIR__ . "/sites/view_profile_picture.php",
+        "{\b(delete_profile_picture)\b}" => __DIR__ . "/sites/delete_profile_picture.php",
+        "{\b(set_profile_picture)\b}" => __DIR__ . "/sites/set_profile_picture.php",
         "{\b(albums)\b}" => __DIR__ . "/sites/albums.php",
         "{\b(album)\b}" => __DIR__ . "/sites/album.php",
         "{\b(new_album)\b}" => __DIR__ . "/sites/new_album.php",

@@ -18,7 +18,7 @@
         $password = mysqli_real_escape_string($conn, trim($_POST["password"]));
 
         // Search for user in the database
-        $sql = "SELECT id, username, password, profile_picture FROM users WHERE username = '$username' LIMIT 1";
+        $sql = "SELECT id, username, password, profile_pictures_id FROM users WHERE username = '$username' LIMIT 1";
         if ($result = mysqli_query($conn, $sql)) {
             $rows = array();
             while ($row = mysqli_fetch_assoc($result)) {
@@ -42,7 +42,7 @@
             $_SESSION["user"] = array(
                 "id" => $rows[0]["id"],
                 "username" => $rows[0]["username"],
-                "profile_picture" => $rows[0]["profile_picture"]
+                "profile_pictures_id" => $rows[0]["profile_pictures_id"]
             );
 
             header("location: albums");

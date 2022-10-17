@@ -55,6 +55,8 @@
             $rows[] = $row;
         }
     }
+
+    $user_id = $_SESSION["user"]["id"];
 ?>
 
 <!DOCTYPE html>
@@ -83,6 +85,12 @@
                 (object)[
                     "title" => "Create New Album",
                     "href" => "new_album",
+
+                    "active" => false
+                ],
+                (object)[
+                    "title" => "Profile",
+                    "href" => "profile_picture?id=$user_id",
 
                     "active" => false
                 ],
@@ -124,7 +132,7 @@
                                         <tr>
                                             <td>$album_id</td>
                                             <td>$album_name</td>
-                                            <td>$album_author</td>
+                                            <td><a href="profile_picture?id=$album_created_by">$album_author</a></td>
                                             <td>$album_created_at</td>
                                             <td>
                                                 <div class="btn-group" role="group" aria-label="Action buttons">

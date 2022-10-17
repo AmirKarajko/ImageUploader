@@ -20,6 +20,12 @@
         }
         mysqli_stmt_execute($stmt);
 
+        $sql = "UPDATE images SET deleted = 1 WHERE album_id = ? AND uploader = ?";
+        if($stmt = mysqli_prepare($conn, $sql)) {
+            mysqli_stmt_bind_param($stmt, "ii", $album_id, $_SESSION["user"]["id"]);
+        }
+        mysqli_stmt_execute($stmt);
+
         header("location: albums");
         exit;
     }

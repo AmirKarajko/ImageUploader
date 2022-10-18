@@ -163,7 +163,7 @@
                         <input type="hidden" name="id" value="<?php echo $album_id; ?>" />
                         <div class="mb-3">
                             <label for="upload" class="label">File</label>
-                            <input class="file-input" type="file" name="upload" maxlength="128" />
+                            <input class="file-input" type="file" name="upload[]" multiple maxlength="128" />
                         </div>
                         <div>
                             <button class="btn btn-primary" type="submit">Upload File</button>

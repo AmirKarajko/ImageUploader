@@ -9,7 +9,7 @@
         exit;
     }
 
-    require_once(__DIR__ . "/../php/database.php");
+    require_once(__DIR__ . "/../../php/database.php");
 
     $user_id = mysqli_real_escape_string($conn, trim($_GET["id"]));
 

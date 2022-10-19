@@ -9,7 +9,7 @@
         exit;
     }
 
-    require_once(__DIR__ . "/../php/database.php");
+    require_once(__DIR__ . "/../../php/database.php");
 
     $album_id = mysqli_real_escape_string($conn, trim($_GET["id"]));
 
@@ -68,7 +68,7 @@
     </head>
     <body>
         <?php
-            require_once(__DIR__ . "/../php/navbar.php");
+            require_once(__DIR__ . "/../../php/navbar.php");
 
             if($rows[0]["album_created_by"] == $_SESSION["user"]["id"]) {
                 echo getNavbar(array(

@@ -10,7 +10,7 @@
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        require_once(__DIR__ . "/../php/database.php");
+        require_once(__DIR__ . "/../../php/database.php");
 
         $album_id = mysqli_real_escape_string($conn, trim($_POST["id"]));
         $album_name = mysqli_real_escape_string($conn, trim($_POST["name"]));

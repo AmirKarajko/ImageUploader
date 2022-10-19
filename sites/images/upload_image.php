@@ -36,7 +36,7 @@
             if (count($errors) === 0) {
                 // Upload selected file
                 if (is_uploaded_file($_FILES["upload"]["tmp_name"][$key])) {
-                    require_once(__DIR__ . "/../php/database.php");
+                    require_once(__DIR__ . "/../../php/database.php");
     
                     $album_id = mysqli_real_escape_string($conn, $_POST["id"]);
     

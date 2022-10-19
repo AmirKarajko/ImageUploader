@@ -13,13 +13,13 @@
         exit;
     }
 
-    require_once(__DIR__ . "/../php/database.php");
+    require_once(__DIR__ . "/../../php/database.php");
 
-    $image_id = mysqli_real_escape_string($conn, $_GET["id"]);
+    $profile_id = mysqli_real_escape_string($conn, $_GET["id"]);
 
     if(isset($_SESSION["user"]) && !empty($_SESSION["user"])) {
         $user_id = $_SESSION["user"]["id"];
-        $sql = "SELECT filename, mime, data FROM images WHERE id = '$image_id' LIMIT 1";
+        $sql = "SELECT filename, mime, data FROM profile_pictures WHERE id = '$profile_id' LIMIT 1";
     }
 
     $result = mysqli_query($conn, $sql);

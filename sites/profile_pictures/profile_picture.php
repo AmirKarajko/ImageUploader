@@ -9,11 +9,13 @@
         exit;
     }
 
-    require_once(__DIR__ . "/../php/database.php");
+    require_once(__DIR__ . "/../../php/database.php");
 
     $user_id = mysqli_real_escape_string($conn, trim($_GET["id"]));
 
-    $sql = "SELECT
+    $sql = "SELECT username AS user_username FROM users WHERE id = $user_id;";
+
+    $sql .= "SELECT
                 profile_pictures.id AS profile_id,
                 profile_pictures.filename AS profile_filename,
                 profile_pictures.mime AS profile_file_type,
@@ -24,20 +26,18 @@
             FROM profile_pictures
             LEFT JOIN users ON profile_pictures.uploaded_by = users.id
             WHERE profile_pictures.deleted = 0 AND profile_pictures.uploaded_by = $user_id;";
-    
-    if ($result = mysqli_query($conn, $sql)) {
-        $rows = array();
-        while ($row = mysqli_fetch_assoc($result)) {
-            $rows[] = $row;
-        }
-    }
 
-    $sql = "SELECT username AS user_username FROM users WHERE id = $user_id";
-    if ($result = mysqli_query($conn, $sql)) {
-        $rows2 = array();
-        while ($row = mysqli_fetch_assoc($result)) {
-            $rows2[] = $row;
-        }
+    $rows = array();
+    if ($conn -> multi_query($sql)) {
+        do {
+            if ($result = $conn -> store_result()) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $rows[] = $row;
+                }
+
+                $result -> free_result();
+            }
+        } while ($conn -> next_result());
     }
 ?>
 
@@ -78,42 +78,43 @@
             ), false);
         ?>
 
-        <div class="container mt-3">
-            <div class="row">
-                <div class="col">
-                    <?php
-                        $profile_html = <<<HTML
-                        HTML;
+        <?php
+            $profile_html = <<<HTML
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="col">
+            HTML;
 
-                        foreach ($rows2 as $row) {
-                            $user_username = $row["user_username"];
+            $user_username = $rows[0]["user_username"];
 
-                            $profile_html .= <<<HTML
-                                                <center>
-                                                    <h3>$user_username</h3>
-                                                </center>
-                                            HTML;
-                        }
+            $profile_html = <<<HTML
+                <center>
+                    <h3>$user_username</h3>
+                </center>
+            HTML;
 
-                        foreach ($rows as $row) {
-                            $profile_id = $row["profile_id"];
-                            $profile_active = $row["profile_active"];
-                            $profile_deleted = $row["profile_deleted"];
+            for ($i = 1; $i < count($rows); $i++) {
+                $profile_id = $rows[$i]["profile_id"];
+                $profile_active = $rows[$i]["profile_active"];
+                $profile_deleted = $rows[$i]["profile_deleted"];
 
-                            if ($profile_active == 1 && !$profile_deleted) {
-                                $profile_html .= <<<HTML
-                                            <center>
-                                                <img src="download_profile_picture?id=$profile_id" style="width:168px; height:168px" />
-                                            </center>
-                                            HTML;
-                            }
-                        }                        
-                        
-                        echo $profile_html;
-                    ?>
+                if ($profile_active == 1 && !$profile_deleted) {
+                    $profile_html .= <<<HTML
+                        <center>
+                            <img src="download_profile_picture?id=$profile_id" style="object-fit:contain; width: 200px; height: 200px;" />
+                        </center>
+                    HTML;
+                }
+            }
+
+            $profile_html .= <<<HTML
+                    </div>
                 </div>
             </div>
-        </div>
+            HTML;
+
+            echo $profile_html;
+        ?>                
         
         <div class="container mt-3">
             <div class="row">
@@ -136,7 +137,10 @@
 
         <?php 
             if ($user_id == $_SESSION["user"]["id"]) {
-                echo '
+
+                $album_id = mysqli_real_escape_string($conn, trim($_GET["id"]));
+
+                $upload_file_html = <<<HTML
                     <div class="container mt-3">
                         <div class="card">
                             <div class="card-body">
@@ -166,15 +170,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                ';
+                HTML;
 
-                foreach ($rows as $row) {
-                    $profile_id = $row["profile_id"];
-                    $profile_filename = $row["profile_filename"];
-                    $profile_file_type = $row["profile_file_type"];
-                    $profile_uploaded_by = $row["profile_uploaded_by"];
-                    $profile_uploaded_at = $row["profile_uploaded_at"];
-                    $profile_active = $row["profile_active"];
+                echo $upload_file_html;
+
+                for ($i = 1; $i < count($rows); $i++) {
+                    $profile_id = $rows[$i]["profile_id"];
+                    $profile_filename = $rows[$i]["profile_filename"];
+                    $profile_file_type = $rows[$i]["profile_file_type"];
+                    $profile_uploaded_by = $rows[$i]["profile_uploaded_by"];
+                    $profile_uploaded_at = $rows[$i]["profile_uploaded_at"];
+                    $profile_active = $rows[$i]["profile_active"];
                 
                     $html = <<<HTML
                             <tr>
@@ -205,32 +211,34 @@
                     );
                     if(in_array($profile_file_type, $profile_file_types)) {
                         $html .= <<<HTML
-                                        <a href="view_profile_picture?id=$profile_id" class="btn btn-outline-primary">
-                                            View
-                                        </a>
-                                    HTML;
-                    }
-
-                    if($profile_uploaded_by == $user_id) {
-                        $html .= <<<HTML
-                                    <a href="delete_profile_picture?id=$profile_id" class="btn btn-outline-primary">
-                                        Delete
-                                    </a>
-                                HTML;
+                            <a href="view_profile_picture?id=$profile_id" class="btn btn-outline-primary">
+                                View
+                            </a>
+                        HTML;
                     }
 
                     $html .= <<<HTML
-                                        </div>
-                                    </td>
-                                </tr>
-                            HTML;
+                        <a href="delete_profile_picture?id=$profile_id" class="btn btn-outline-primary">
+                            Delete
+                        </a>
+                    HTML;
+
+                    $html .= <<<HTML
+                                </div>
+                            </td>
+                        </tr>
+                    HTML;
 
                     echo $html;
                 }
 
-                echo '</tbody>
-                    </table>
-                </div>';
+                $upload_file_html = <<<HTML
+                            </tbody>
+                        </table>
+                    </div>
+                HTML;
+
+                echo $upload_file_html;
             }
         ?>
 

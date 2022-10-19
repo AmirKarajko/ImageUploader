@@ -9,7 +9,7 @@
         exit;
     }
 
-    require_once(__DIR__ . "/../php/database.php");
+    require_once(__DIR__ . "/../../php/database.php");
 
     $searchQuery = "";
     if ($_SERVER["REQUEST_METHOD"] == "GET") {

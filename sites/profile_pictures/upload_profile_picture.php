@@ -35,7 +35,7 @@
         if (count($errors) === 0) {
             // Upload selected file
             if (is_uploaded_file($_FILES["upload"]["tmp_name"])) {
-                require_once(__DIR__ . "/../php/database.php");
+                require_once(__DIR__ . "/../../php/database.php");
 
                 $filename = $_FILES["upload"]["name"];
                 $tmpName = $_FILES["upload"]["tmp_name"];

@@ -21,17 +21,8 @@
             FROM albums
             LEFT JOIN users ON albums.created_by = users.id
             WHERE albums.id = $album_id AND albums.deleted = 0;";
-    
-    if ($result = mysqli_query($conn, $sql)) {
-        $rows = array();
-        while ($row = mysqli_fetch_assoc($result)) {
-            $rows[] = $row;
-        }
-    }
 
-    $title = (isset($rows[0]["album_name"]) && strlen($rows[0]["album_name"]) > 0) ? $rows[0]["album_name"] : "<unnamed>";
-
-    $sql = "SELECT
+    $sql .= "SELECT
                 images.id AS image_id,
                 images.filename AS image_filename,
                 images.mime AS image_file_type,
@@ -43,12 +34,20 @@
             LEFT JOIN albums ON albums.id = images.albums_id
             WHERE images.deleted = 0 AND albums.id = $album_id;";
 
-    if ($result = mysqli_query($conn, $sql)) {
-        $rows2 = array();
-        while ($row = mysqli_fetch_assoc($result)) {
-            $rows2[] = $row;
-        }
+    $rows = array();
+    if ($conn -> multi_query($sql)) {
+        do {
+            if ($result = $conn -> store_result()) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $rows[] = $row;
+                }
+
+                $result -> free_result();
+            }
+        } while ($conn -> next_result());
     }
+
+    $title = (isset($rows[0]["album_name"]) && strlen($rows[0]["album_name"]) > 0) ? $rows[0]["album_name"] : "<unnamed>";
 
     $user_id = $_SESSION["user"]["id"];
 ?>
@@ -189,14 +188,14 @@
                     <?php
                         $user_id = $_SESSION["user"]["id"];
 
-                        foreach ($rows2 as $row) {
-                            $image_id = $row["image_id"];
-                            $image_filename = $row["image_filename"];
-                            $image_file_type = $row["image_file_type"];
-                            $image_uploaded_by = $row["image_uploaded_by"];
-                            $image_uploader = $row["image_uploader"];
-                            $image_uploaded_at = $row["image_uploaded_at"];
-                            $image_uploaded_by = $row["image_uploaded_by"];
+                        for ($i = 1; $i < count($rows); $i++) {
+                            $image_id = $rows[$i]["image_id"];
+                            $image_filename = $rows[$i]["image_filename"];
+                            $image_file_type = $rows[$i]["image_file_type"];
+                            $image_uploaded_by = $rows[$i]["image_uploaded_by"];
+                            $image_uploader = $rows[$i]["image_uploader"];
+                            $image_uploaded_at = $rows[$i]["image_uploaded_at"];
+                            $image_uploaded_by = $rows[$i]["image_uploaded_by"];
 
                             $image_album_id = $album_id;
 

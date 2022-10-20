@@ -202,7 +202,30 @@
                             $html = <<<HTML
                                         <tr>
                                             <td>$image_id</td>
-                                            <td>$image_filename</td>
+                                        HTML;
+
+                            $image_filename_length = strlen($image_filename);
+                            $max_filename_length = 24;
+
+                            if($image_filename_length > $max_filename_length) {
+                                $image_short_filename = substr($image_filename, 0, $max_filename_length) . "...";
+
+                                $html .= <<<HTML
+                                            <td title="$image_filename">$image_short_filename</td>
+                                            HTML;
+                            }
+                            else if ($image_filename_length > 0 && $image_filename_length <= $max_filename_length) {
+                                $html .= <<<HTML
+                                            <td title="$image_filename">$image_filename</td>
+                                            HTML;
+                            }
+                            else {
+                                $html .= <<<HTML
+                                            <td title="<unnamed>">&ltunnamed&gt</td>
+                                            HTML;
+                            }
+
+                            $html .= <<<HTML
                                             <td>$image_file_type</td>
                                             <td><a href="profile_picture?id=$image_uploaded_by">$image_uploader</a></td>
                                             <td>$image_uploaded_at</td>

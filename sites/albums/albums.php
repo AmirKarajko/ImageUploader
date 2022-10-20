@@ -131,7 +131,30 @@
                             $html = <<<HTML
                                         <tr>
                                             <td>$album_id</td>
-                                            <td>$album_name</td>
+                                        HTML;
+
+                            $album_name_length = strlen($album_name);
+                            $max_name_length = 24;
+
+                            if($album_name_length > $max_name_length) {
+                                $album_short_name = substr($album_name, 0, $max_name_length) . "...";
+
+                                $html .= <<<HTML
+                                            <td title="$album_name">$album_short_name</td>
+                                            HTML;
+                            }
+                            else if ($album_name_length > 0 && $album_name_length <= $max_name_length) {
+                                $html .= <<<HTML
+                                            <td title="$album_name">$album_name</td>
+                                            HTML;
+                            }
+                            else {
+                                $html .= <<<HTML
+                                            <td title="<unnamed>">&ltunnamed&gt</td>
+                                            HTML;
+                            }
+
+                            $html .= <<<HTML
                                             <td><a href="profile_picture?id=$album_created_by">$album_author</a></td>
                                             <td>$album_created_at</td>
                                             <td>

@@ -185,7 +185,30 @@
                     $html = <<<HTML
                             <tr>
                                 <td>$profile_id</td>
-                                <td>$profile_filename</td>
+                            HTML;
+
+                    $profile_filename_length = strlen($profile_filename);
+                    $max_filename_length = 24;
+
+                    if($profile_filename_length > $max_filename_length) {
+                        $profile_short_filename = substr($profile_filename, 0, $max_filename_length) . "...";
+
+                        $html .= <<<HTML
+                                    <td title="$profile_filename">$profile_short_filename</td>
+                                    HTML;
+                    }
+                    else if ($profile_filename_length > 0 && $profile_filename_length <= $max_filename_length) {
+                        $html .= <<<HTML
+                                    <td title="$profile_filename">$profile_filename</td>
+                                    HTML;
+                    }
+                    else {
+                        $html .= <<<HTML
+                                    <td title="<unnamed>">&ltunnamed&gt</td>
+                                    HTML;
+                    }
+
+                    $html .= <<<HTML
                                 <td>$profile_file_type</td>
                                 <td>$profile_uploaded_at</td>
                                 <td>

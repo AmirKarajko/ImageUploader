@@ -13,7 +13,7 @@
 
     $user_id = mysqli_real_escape_string($conn, trim($_GET["id"]));
 
-    $sql = "SELECT username AS user_username FROM users WHERE id = $user_id;";
+    $sql = "SELECT username AS user_username FROM users WHERE id = '" . $user_id . "';";
 
     $sql .= "SELECT
                 profile_pictures.id AS profile_id,
@@ -25,7 +25,7 @@
                 profile_pictures.deleted AS profile_deleted
             FROM profile_pictures
             LEFT JOIN users ON profile_pictures.uploaded_by = users.id
-            WHERE profile_pictures.deleted = 0 AND profile_pictures.uploaded_by = $user_id;";
+            WHERE profile_pictures.deleted = 0 AND profile_pictures.uploaded_by = '" . $user_id . "';";
 
     $rows = array();
     if ($conn -> multi_query($sql)) {

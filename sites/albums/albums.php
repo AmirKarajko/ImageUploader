@@ -16,7 +16,7 @@
         if (isset($_GET["search"])) {
             $searchValue = mysqli_real_escape_string($conn, trim($_GET["search"]));
             $searchQuery = " AND (
-                albums.name LIKE '%$searchValue%'
+                albums.name LIKE '%" . $searchValue . "%'
             )";
         }
     }
@@ -47,7 +47,7 @@
             FROM albums
             LEFT JOIN users ON albums.created_by = users.id
             WHERE albums.deleted = 0$searchQuery
-            LIMIT $limitRangeStart, $limitRangeEnd";
+            LIMIT " . $limitRangeStart . ", " . $limitRangeEnd . ";";
 
     if ($result = mysqli_query($conn, $sql)) {
         $rows = array();

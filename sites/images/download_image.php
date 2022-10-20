@@ -19,7 +19,7 @@
 
     if(isset($_SESSION["user"]) && !empty($_SESSION["user"])) {
         $user_id = $_SESSION["user"]["id"];
-        $sql = "SELECT filename, mime, data FROM images WHERE id = '$image_id' LIMIT 1";
+        $sql = "SELECT filename, mime, data FROM images WHERE id = '" . $image_id . "' LIMIT 1;";
     }
 
     $result = mysqli_query($conn, $sql);

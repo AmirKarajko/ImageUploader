@@ -20,7 +20,7 @@
                 albums.created_by AS album_created_by
             FROM albums
             LEFT JOIN users ON albums.created_by = users.id
-            WHERE albums.id = $album_id AND albums.deleted = 0;";
+            WHERE albums.id = '" . $album_id . "' AND albums.deleted = 0;";
 
     $sql .= "SELECT
                 images.id AS image_id,
@@ -32,7 +32,7 @@
             FROM images
             LEFT JOIN users ON images.uploaded_by = users.id
             LEFT JOIN albums ON albums.id = images.albums_id
-            WHERE images.deleted = 0 AND albums.id = $album_id;";
+            WHERE images.deleted = 0 AND albums.id = '" . $album_id . "';";
 
     $rows = array();
     if ($conn -> multi_query($sql)) {

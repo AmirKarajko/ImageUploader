@@ -136,6 +136,8 @@
             </form>
         </div>
 
+        <?php if($rows[0]["album_created_by"] == $_SESSION["user"]["id"]) { ?>
+        
         <div class="container mt-3">
             <div class="row">
                 <div class="col">
@@ -171,6 +173,8 @@
                 </div>
             </div>
         </div>
+
+        <?php } ?>
 
         <div class="container">
             <table class="table">
@@ -227,7 +231,7 @@
 
                             $html .= <<<HTML
                                             <td>$image_file_type</td>
-                                            <td><a href="profile_picture?id=$image_uploaded_by">$image_uploader</a></td>
+                                            <td><a href="profile?id=$image_uploaded_by">$image_uploader</a></td>
                                             <td>$image_uploaded_at</td>
                                             <td>
                                                 <div class="btn-group" role="group" aria-label="Action buttons">

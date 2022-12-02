@@ -39,9 +39,9 @@
 
         echo $name;
 
-        $sql = "INSERT INTO albums (name, description, created_by) VALUES (?, '', ?)";
+        $sql = "INSERT INTO albums (name, description, created_by, users_id) VALUES (?, '', ?, ?)";
         if ($stmt = mysqli_prepare($conn, $sql)) {
-            mysqli_stmt_bind_param($stmt, "si", $name, $_SESSION["user"]["id"]);
+            mysqli_stmt_bind_param($stmt, "sii", $name, $_SESSION["user"]["id"], $_SESSION["user"]["id"]);
         }
         mysqli_stmt_execute($stmt);
 

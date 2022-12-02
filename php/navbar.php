@@ -42,7 +42,7 @@
                             <form method="get" class="d-flex">
                                 <div class="input-group">
                                     <input type="text" class="form-control me-2" name="search" placeholder="Search" aria-label="Search" value="$search" />
-                                    <button class="input-group-text btn-success" type="submit">Search</button>
+                                    <button class="input-group-text btn-success" type="submit"><i class="fa fa-search" aria-hidden="true"></i>Search</button>
                                 </div>
                             </form>
                         HTML;

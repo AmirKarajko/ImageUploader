@@ -69,6 +69,9 @@
         <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
         <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="fontawesome/all.min.css">
+        
         <link rel="icon" type="image/png" href="../favicon.png">
         <title>Albums | Image Uploader</title>
     </head>
@@ -160,6 +163,7 @@
                                             <td>
                                                 <div class="btn-group" role="group" aria-label="Action buttons">
                                                     <a href="album?id=$album_id" class="btn btn-outline-primary">
+                                                        <i class="fa fa-folder-open" aria-hidden="true"></i>
                                                         Open
                                                     </a>
                                         HTML;
@@ -167,6 +171,7 @@
                             if($album_created_by == $user_id) {
                                 $html .= <<<HTML
                                             <a onclick="if(confirm('Are you sure you want to delete this album?')) {window.location = 'delete_album?id=$album_id'}" class="btn btn-outline-primary">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
                                                 Delete
                                             </a>
                                         HTML;

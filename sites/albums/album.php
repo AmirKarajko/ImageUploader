@@ -89,7 +89,7 @@
                     ],
                     (object)[
                         "title" => "Profile",
-                        "href" => "profile_picture?id=$user_id",
+                        "href" => "profile?id=$user_id",
     
                         "active" => false
                     ],
@@ -109,7 +109,7 @@
                     ],
                     (object)[
                         "title" => "Profile",
-                        "href" => "profile_picture?id=$user_id",
+                        "href" => "profile?id=$user_id",
     
                         "active" => false
                     ],

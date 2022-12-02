@@ -80,7 +80,7 @@
                     "title" => "Albums",
                     "href" => "albums",
 
-                    "active" => false
+                    "active" => true
                 ],
                 (object)[
                     "title" => "Create New Album",
@@ -90,7 +90,7 @@
                 ],
                 (object)[
                     "title" => "Profile",
-                    "href" => "profile_picture?id=$user_id",
+                    "href" => "profile?id=$user_id",
 
                     "active" => false
                 ],
@@ -155,7 +155,7 @@
                             }
 
                             $html .= <<<HTML
-                                            <td><a href="profile_picture?id=$album_created_by">$album_author</a></td>
+                                            <td><a href="profile?id=$album_created_by">$album_author</a></td>
                                             <td>$album_created_at</td>
                                             <td>
                                                 <div class="btn-group" role="group" aria-label="Action buttons">

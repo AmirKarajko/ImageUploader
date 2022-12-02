@@ -58,6 +58,9 @@
         <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
         <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="fontawesome/all.min.css">
+
         <link rel="icon" type="image/png" href="../favicon.png">
         <title><?php echo $title; ?> | Image Uploader</title>
     </head>
@@ -116,7 +119,7 @@
                             <input class="file-input" type="file" name="upload" />
                         </div>
                         <div>
-                            <button class="btn btn-primary" type="submit">Upload File</button>
+                            <button class="btn btn-primary" type="submit"><i class="fa fa-upload" aria-hidden="true"></i> Upload File</button>
                         </div>
                     </form>
                 </div>

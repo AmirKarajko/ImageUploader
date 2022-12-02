@@ -62,6 +62,9 @@
         <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
         <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="fontawesome/all.min.css">
+
         <link rel="icon" type="image/png" href="../favicon.png">
         <title><?php echo $title; ?> | Image Uploader</title>
     </head>
@@ -167,7 +170,10 @@
                             <input class="file-input" type="file" name="upload[]" multiple />
                         </div>
                         <div>
-                            <button class="btn btn-primary" type="submit">Upload File</button>
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-upload" aria-hidden="true"></i>
+                                Upload File
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -236,6 +242,7 @@
                                             <td>
                                                 <div class="btn-group" role="group" aria-label="Action buttons">
                                                     <a href="download_image?id=$image_id" class="btn btn-outline-primary">
+                                                        <i class="fa fa-download" aria-hidden="true"></i>
                                                         Download
                                                     </a>
                                         HTML;
@@ -254,6 +261,7 @@
                             if(in_array($image_file_type, $image_file_types)) {
                                 $html .= <<<HTML
                                                 <a href="view_image?id=$image_id" class="btn btn-outline-primary">
+                                                    <i class="fa fa-eye" aria-hidden="true"></i>
                                                     View
                                                 </a>
                                             HTML;
@@ -262,6 +270,7 @@
                             if($image_uploaded_by == $user_id) {
                                 $html .= <<<HTML
                                             <a href="delete_image?id=$image_id" class="btn btn-outline-primary">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
                                                 Delete
                                             </a>
                                         HTML;
